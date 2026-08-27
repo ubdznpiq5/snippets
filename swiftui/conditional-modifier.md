@@ -1,11 +1,14 @@
 # Conditional Modifier
 
-Sometimes you need to apply a modifier only when a condition is true. Instead of `if` inside the view builder, use a `ViewModifier` extension.
+Small helper for applying a SwiftUI modifier only when a condition is true.
 
 ```swift
 extension View {
     @ViewBuilder
-    func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+    func `if`<Content: View>(
+        _ condition: Bool,
+        transform: (Self) -> Content
+    ) -> some View {
         if condition {
             transform(self)
         } else {
@@ -20,8 +23,8 @@ Usage:
 ```swift
 Text("Hello")
     .if(isHighlighted) { view in
-        view.background(Color.yellow)
+        view.foregroundColor(.yellow).bold()
     }
 ```
 
-This avoids duplicating the view hierarchy.
+This avoids wrapping in `Group` or `AnyView`, and keeps call sites readable.
